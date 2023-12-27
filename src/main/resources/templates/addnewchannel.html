@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a new channel</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/browse-bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            line-height: 1 !important;
+        }
+
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+</head>
+<body>
+    <div class="columns pt-3">
+        <div class="column px-6 mx-6 mt-5">
+            <h3 class="has-text-centered">Create a new channel</h3>
+            <form th:object="${newchannel}" method="post">
+                <div class="container pt-3 mt-6">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Channel Name: </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Enter channel name" th:field="*{channelName}">
+                                </div>
+                                
+                                <div th:if="${#fields.hasErrors('channelName')}" th:errors="*{channelName}" th:errorclass="error" class="notification is-danger is-light"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Description: </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea is-link" name="description" cols="40" rows="10" placeholder="Enter a description so other users can properly use this space!" th:field="*{description}"></textarea>
+                                </div>
+
+                                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="error" class="notification is-danger is-light"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns mt-4 px-6 mx-6 has-text-centered">
+                        <div class="column">
+                            <form>
+                                <button formmethod="get" formaction="/channels" class="button is-medium is-link is-rounded mr-3">Go Back</button>
+                                <button formmethod="post" formaction="/channels/success" class="button is-medium is-link is-rounded mr-3">Add Channel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

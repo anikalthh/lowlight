@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Lowlight</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/signup-bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden !important;
+            line-height: 1 !important;
+        }
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+</head>
+<body>
+    <div class="columns pt-6">
+        <div class="column px-6 mx-6 mt-6 mb-4 has-text-centered">
+            <h2>Welcome back, login here!</h2>
+        </div>
+    </div>
+
+    <div class="container has-text-centered" style="width: 50%;">
+        <div th:if="${loginfailed}" class="notification is-danger is-light mx-6 px-6">Username or password is incorrect. Please try again.</div>
+    </div>
+    
+
+    <div style="width: 37%;" class="container has-text-centered mt-6 pt-6">
+        <form th:object="${userlogin}">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Username: </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input th:field="*{username}" class="input is-rounded" type="text" placeholder="Enter username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:errorclass="error" class="notification is-danger is-light"></div>
+
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label">Password: </label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input th:field="*{password}" class="input is-rounded mt-2" type="password" placeholder="Enter password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error" class="notification is-danger is-light"></div>
+
+            <div class="columns mt-4 px-6 mx-6 has-text-centered">
+                <div class="column">
+                    <button formmethod="get" formaction="/" class="button is-medium is-link is-rounded mr-3">Go back</button>
+                    <button formmethod="post" formaction="/loginsuccess" class="button is-medium is-link is-rounded mr-3">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/profile-bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            line-height: 1 !important;
+        }
+
+        .navbar {
+            background-color: hsl(0 100% 100% / 0.5) !important;
+        }
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body class="has-navbar-fixed-top pb-6 mb-6">
+    <!-- NAV BAR -->
+    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+        <a class="navbar-item" href="/channels">
+            <img src="/images/logo.png" width="35" height="35">
+        </a>
+    
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        </div>
+    
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/channels">
+                Browse Channels
+                </a>
+        
+                <a class="navbar-item" th:href="@{/profile/{username}(username=${username})}">
+                Profile
+                </a>
+            </div>
+        
+            <div class="navbar-end">
+                <div class="navbar-item">
+                <div class="buttons">
+                    <form method="get">
+                        <button class="button is-dark" formaction="/logout">
+                            Log out
+                        </button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BODY CONTENT -->
+    <section class="section mb-3 pb-6">
+
+        <!-- First row -->
+        <div class="columns px-6 mx-6">
+            <div class="column is-2 mt-5">
+                <img style="height: 20vh;" src="/images/profile-pic.png" alt="profile picture">
+            </div>
+
+            <div class="column mr-3">
+                <h3 class="mt-6 mb-3">@<span th:text="${username}"></span></h3>
+                <p>Email: <span th:text="${email}"></span></p>
+                <p>Last Active Date: <span th:text="${#dates.format(lastactivedate, 'dd-MM-yyyy')}"></span></p>
+                <p th:unless="${hasNotViewedChannels}">Last Viewed Channel: <a th:href="@{/channels/{channelName}(channelName=${lastviewedchannel})}" th:text="${lastviewedchannel}"></a></p>
+                <p th:if="${hasNotViewedChannels}">Last Viewed Channel: <span th:text="${lastviewedchannel}"></span></p>
+            </div>
+
+            <div class="column mt-6 ml-5">
+                <p>"<span style="font-family: 'Montserrat', sans-serif;" th:text="${quote}"></span>"</p><br>
+                <p>— <span th:text="${quoteauthor}"></span></p>
+            </div>
+        </div>
+
+        <div class="px-6 mx-6 has-text-centered">
+            <hr>
+        </div>
+
+        <div class="columns pt-5 px-6 mx-6">
+            <!-- Tiles of posts -->
+            <div class="column is-three-fifths">
+                <h4 th:if="${hasnoposts}">No posts yet. Browse channels and make your first post!</h4>
+                <h3 style="font-size: 4vh !important;" class="mb-4" th:unless="${hasnoposts}">My public posts</h3>
+                <div th:unless="${hasnoposts}" class="tile is-ancestor" th:each="post : ${posts}">
+                    <div class="tile is-parent">
+                        <div class="tile is-child">
+                            <article class="tile is-child notification is-primary">
+                                <p class="title" th:text="${post.title}"></p>
+                                <i class="subtitle" th:unless="${post.isAnonymous}" th:text="${post.author}"></i>
+                                <i class="subtitle" th:if="${post.isAnonymous}">Anonymous</i>
+                                <p class="subtitle" th:text="${#dates.format(post.datePublished, 'dd-MM-yyyy')}"></p>
+                                <p class="content" th:text="${post.body}"></p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <!-- Graph API -->
+                <h3 style="font-size: 4vh !important;" class="mb-4">My moodtracker</h3>
+                <div style="background-color: beige;" class="pb-4 mb-4">
+                    <img th:src="${graphAPI}" alt="Moodtracker Graph API">
+                </div>
+
+                <!-- Tabs -->
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <div class="tile is-child">
+                            <a a th:href="@{/profile/{username}/journal(username=${username})}">
+                                <article class="tile is-child notification is-warning">
+                                    <h3 style="font-size: 4vh !important;">My Personal Journal</h3>
+                                </article>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'Roca One';
+  src: url('/fonts/roca-one.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roca Thin';
+  src: url('/fonts/roca-thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  width: 100%;
+  /* overflow-y: hidden !important; */
+}
+
+/* body {
+  background-image: url("/images/index_bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  line-height: 1 !important;
+} */
+
+section {
+  padding: 20px;
+}
+
+h1 {
+  color: #156669 !important;
+  font-family: 'Roca Thin', sans-serif;
+  font-size: 13vh !important;
+  margin-bottom: 0px !important;
+}
+
+h2 {
+  color: #156669;
+  font-family: 'Roca One', sans-serif;
+  font-size: 10vh !important;
+}
+
+h3 {
+  color: #156669;
+  font-family: 'Roca One', sans-serif;
+  font-size: 7vh !important;
+}
+
+h4 {
+  color: #156669;
+  font-family: 'Montserrat', sans-serif;
+}
+
+label {
+  color: #156669 !important;
+  font-family: 'Roca One', sans-serif;
+  font-size: 3.5vh !important;
+}

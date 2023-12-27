@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/index-bg.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow-y: hidden !important;
+            line-height: 1 !important;
+        }
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <div class="pt-5 mt-5">
+        <div class="columns pt-5 px-6 mx-6 is-three-fifths">
+            <h3>Error</h3>
+        </div>
+        <div class="columns pt-5 px-6 mx-6 is-three-fifths">
+            <h4>We've encountered an error.</h4>
+        </div>
+        <div class="columns pt-5 px-6 mx-6">
+            <form method="get">
+                <div class="column p-0 pt-2">
+                    <button formaction="/" class="button is-medium is-link is-rounded mr-3">Return to homepage</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

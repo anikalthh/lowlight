@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Journal Entry</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/browse-bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            line-height: 1 !important;
+        }
+
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+</head>
+
+<body>
+    <div class="columns pt-3">
+        <div class="column px-6 mx-6 mt-5">
+            <h3 class="has-text-centered">New Journal Entry</h3>
+            <form th:object="${newjournalentry}" method="post">
+                <div class="container pt-3 mt-6">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Title:</label>
+                        </div>
+                        <div class="field-body">
+                            <div style="width: 30vw !important;" class="field">
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Enter Title" th:field="*{title}">
+                                </div>
+                                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" th:errorclass="error"
+                                    class="notification is-danger is-light"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Content:</label>
+                        </div>
+                        <div class="field-body">
+                            <div style="width: 30vw !important;" class="field">
+                                <div class="control">
+                                    <textarea class="textarea is-link" name="description" cols="5" rows="10"
+                                        placeholder="Feel free to share!" th:field="*{body}"></textarea>
+                                </div>
+                                <div th:if="${#fields.hasErrors('body')}" th:errors="*{body}" th:errorclass="error"
+                                    class="notification is-danger is-light"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Your mood:</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control mt-4">
+                                    <select name="mood">
+                                        <option value="happy">Happy</option>
+                                        <option value="peaceful">Peaceful</option>
+                                        <option value="sad">Sad</option>
+                                        <option value="angry">Angry</option>
+                                        <option value="unmotivated">Unmotivated</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns mt-4 px-6 mx-6 has-text-centered">
+                        <div class="column">
+                            <form>
+                                <button formmethod="get" th:formaction="@{/profile/{username}(username=${username})}" class="button is-medium is-link is-rounded mr-3">Go Back</button>
+                                <button formmethod="post" th:formaction="@{/profile/{username}/journal/success(username=${username})}" class="button is-medium is-link is-rounded mr-3">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

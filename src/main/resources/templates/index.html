@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Internal styling -->
+    <style>
+        html, body {
+            background-image: url("/images/index-bg.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;
+            overflow-y: hidden !important;
+            line-height: 1 !important;
+        }
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="columns px-6 mx-6">
+            <div class="column">
+                <img style="height: 10vh;" src="/images/logo.png" alt="logo">
+            </div>
+        </div>
+        <div class="columns pt-5 px-6 mx-6">
+            <div class="column is-three-fifths">
+                <h1 class="title">hi there!</h1>
+                <h2>welcome to your <br> safe space</h2>
+                <h4 class="mt-5">Connect through raw, unfiltered experiences</h4>
+            </div>
+
+            <div class="column">
+                <img style="height: 45vh;" src="/images/index-img.png" alt="index-img">
+            </div>
+        </div>
+
+        <div class="columns pt-5 px-6 mx-6">
+            <form method="get">
+
+                <div class="column">
+                    <button formaction="/login" class="button is-medium is-link is-rounded mr-3">Login</button>
+                    <button formaction="/signup" class="button is-medium is-link is-rounded">Sign Up</button>
+                </div>
+
+            </form>
+        </div>
+
+       
+    </section>
+</body>
+</html>
