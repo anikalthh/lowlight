@@ -43,6 +43,7 @@ public class ChatbotService {
 
         // Use exchange for POST request
         ResponseEntity<String> res = restTemplate.exchange(fullUrl, HttpMethod.POST, requestEntity, String.class);
+        System.out.printf("print res: %s\n", res);
         String response = getResponse(res.getBody());
 
         return response;
