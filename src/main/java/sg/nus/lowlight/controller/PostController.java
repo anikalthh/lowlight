@@ -51,12 +51,13 @@ public class PostController {
     }
 
     @PostMapping("/success")
-    public String postAdded(@Valid @ModelAttribute("newpost") Post newpost, BindingResult bindings, Model m, HttpSession sess) throws JsonProcessingException {
+    public String postAdded(@Valid @ModelAttribute("newpost") Post newpost, BindingResult bindings, @PathVariable("channelName") String channelName, Model m, HttpSession sess) throws JsonProcessingException {
         if (bindings.hasErrors()) {
+            m.addAttribute("channelName", channelName);
             return "addnewpost";
         }
 
-        String channelName = sess.getAttribute("channelName").toString();
+        // String channelName = sess.getAttribute("channelName").toString();
         String username = sess.getAttribute("currUser").toString();
         chSvc.savePost(channelName, newpost);
         m.addAttribute("isnewpostadded", true);

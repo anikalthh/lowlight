@@ -14,7 +14,5 @@ public class PostComment {
     private String commentId = UUID.randomUUID().toString();
     private String author;
     private long datePublished = System.currentTimeMillis();
-
-    @NotBlank(message = "Comment cannot be blank")
     private String commentBody;
 }
