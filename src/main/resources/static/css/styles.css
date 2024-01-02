@@ -17,18 +17,7 @@ html, body {
   padding: 0px;
   height: 100%;
   width: 100%;
-  /* overflow-y: hidden !important; */
 }
-
-/* body {
-  background-image: url("/images/index_bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  line-height: 1 !important;
-} */
 
 section {
   padding: 20px;
@@ -58,8 +47,69 @@ h4 {
   font-family: 'Montserrat', sans-serif;
 }
 
+.is-comment p {
+  margin-top: 0.5rem !important;
+}
+
+.is-post p {
+  margin-top: 0.5rem !important;
+}
+
+.profile-page p {
+  margin-bottom: 0.5rem !important;
+}
+
 label {
   color: #156669 !important;
   font-family: 'Roca One', sans-serif;
   font-size: 3.5vh !important;
+
 }
+
+/* Channel Tile colour */
+.is-channel {
+  background-color: #7eac96 !important;
+  color: white !important;
+}
+
+/* Post Tile colour */
+.is-post {
+  background-color: #83A1CD !important;
+  color: white !important;
+}
+
+/* Post info */
+.post-info {
+  color: black;
+}
+
+/* Comment tile colour */
+.is-comment {
+  background-color: #6c84a7 !important;
+  color: white !important;
+}
+
+/* Button colours */
+.is-btn {
+  background-color: #156669 !important;
+  color: white !important;
+}
+
+.is-post-btn {
+  background-color: #83A1CD !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.is-channel-btn {
+  font-weight: bold;
+}
+
+.navbar {
+  background-color: hsl(0 100% 100% / 0.5) !important;
+}
+
+.navbar-item {
+  padding: 0rem 0.75rem 0rem 0.75rem !important;
+}
+

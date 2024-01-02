@@ -1,0 +1,32 @@
+[
+    {
+      "username": "jh",
+      "password": "passwd",
+      "email": "jinhaochew99@gmail.com",
+      "lastViewedChannel": "Positive Affirmations",
+      "lastActiveDate": 1703694428000, 
+      "moodtracker": [0, 0, 0, 0, 0],
+      "postsMade": [],
+      "entriesMade": []
+    },
+    {
+      "username": "john_doe",
+      "password": "pw1234",
+      "email": "john.doe@yahoo.com",
+      "lastViewedChannel": "University",
+      "lastActiveDate": 1703694428000, 
+      "moodtracker": [0, 0, 0, 0, 0],
+      "postsMade": [],
+      "entriesMade": []
+    },
+    {
+      "username": "adrinalyh",
+      "password": "pw1234",
+      "email": "adrinalyh@gmail.com",
+      "lastViewedChannel": "Stress Management",
+      "lastActiveDate": 1703003228000,  
+      "moodtracker": [0, 0, 0, 0, 0],
+      "postsMade": [],
+      "entriesMade": []
+    }
+]

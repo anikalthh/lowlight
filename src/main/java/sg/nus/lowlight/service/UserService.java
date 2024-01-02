@@ -59,6 +59,10 @@ public class UserService {
         return userRepo.getUserObjInString(username);
     }
 
+    public String getAllUserObjsInString() {
+        return userRepo.getAllUserObjsInString();
+    }
+
     // Get all journal entries of a user
     public List<JournalEntry> getAllEntries(String username) {
         User user = userRepo.getUserObj(username);
@@ -81,6 +85,11 @@ public class UserService {
         userRepo.addPostToUserDetails(username, post);
     }
 
+    // Remove Post to User Details
+    public void deletePostFromUserDetails(String username, Integer index) throws JsonProcessingException {
+        userRepo.deletePostFromUserDetails(username, index);
+    }
+
     // Add Mood to User Details
     public void addMoodToUserDetails(String username, String mood) throws JsonProcessingException {
         userRepo.addMood(username, mood);
@@ -89,5 +98,10 @@ public class UserService {
     // Add Journal Entry to User Details
     public void addJournalEntryToUserDetails(String username, JournalEntry entry) throws JsonProcessingException {
         userRepo.addJournalEntryToUserDetails(username, entry);
+    }
+
+    // Remove Journal Entry to User Details
+    public void deleteJournalEntryFromUserDetails(String username, Integer index) throws JsonProcessingException {
+        userRepo.deleteJournalEntryFromUserDetails(username, index);
     }
 }

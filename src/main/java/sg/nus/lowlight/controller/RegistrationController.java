@@ -56,10 +56,13 @@ public class RegistrationController {
             return "signup";
         }
 
+        // Save User object
         userSvc.saveUser(user);
-        userSvc.registrationSaveUser(user.getUsername(), user.getPassword());
-        List<Channel> listOfChannels = chSvc.getAllChannels();
 
+        // Save username & password 
+        userSvc.registrationSaveUser(user.getUsername(), user.getPassword());
+
+        List<Channel> listOfChannels = chSvc.getAllChannels();
         m.addAttribute("channels", listOfChannels);
         sess.setAttribute("currUser", user.getUsername());
         m.addAttribute("username", user.getUsername());

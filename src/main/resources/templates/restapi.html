@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not Logged In Error</title>
+    <title>RESTAPI</title>
 
     <!-- Internal styling -->
     <style>
@@ -29,20 +29,34 @@
     <!-- Bulma CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
-<body>
+<body class="has-navbar-fixed-top pb-6">
+
+    <!-- NAV BAR -->
+    <nav th:replace="~{navbar.html :: navbar}"></nav>
+
+    <!-- BODY CONTENT -->
     <div class="pt-5 mt-5">
         <div class="columns pt-5 px-6 mx-6 is-three-fifths">
-            <h3>Error</h3>
+            <h3>REST API: Users' data</h3>
         </div>
         <div class="columns pt-5 px-6 mx-6 is-three-fifths">
-            <h4>It seems like you have not logged in!</h4>
+            <h4>View users' public information in JSON format.</h4>
+        </div>
+        <div class="px-6 mx-6 has-text-centered">
+            <hr>
         </div>
         <div class="columns pt-5 px-6 mx-6">
-            <form method="get">
+            <form>
                 <div class="column p-0 pt-2">
-                    <button formaction="/" class="button is-medium is-btn is-rounded mr-3">Login or sign up here</button>
+                    <h4 class="mb-3">Get a particular user via their username</h4>
+                    <input name="username" class="input is-rounded mb-3" type="text" placeholder="Enter username">
+                    <button th:formaction="@{/restapi/info}" formmethod="get" class="button is-medium is-btn is-rounded mr-3 mb-6" type="submit">Get user</button>
                 </div>
 
+                <div class="column p-0 pt-2">
+                    <h4 class="mb-3">Get all existing users</h4>
+                    <button formmethod="get" formaction="/restapi/info/allusers" class="button is-medium is-btn is-rounded mr-3">Get all users</button>
+                </div>
             </form>
         </div>
     </div>

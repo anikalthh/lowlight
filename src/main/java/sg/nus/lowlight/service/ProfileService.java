@@ -3,6 +3,7 @@ package sg.nus.lowlight.service;
 import java.io.StringReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class ProfileService {
 
     private String quotesBaseUrl = "https://api.api-ninjas.com/v1/quotes";
     private String graphBaseUrl = "https://quickchart.io/chart";
+
+    @Value("${quote.apikey}")
+    private String apiKey;
     
     public JsonObject getRandomQuote() {
 
@@ -33,7 +37,7 @@ public class ProfileService {
 
         RequestEntity<Void> req = RequestEntity
             .get(fullUrl)
-            .header("X-Api-Key", "N2b21IzLnNumXvOjnrWPrw==reQakoZpZL3adGbp")
+            .header("X-Api-Key", apiKey)
             .build();
             
         RestTemplate restTemplate = new RestTemplate();

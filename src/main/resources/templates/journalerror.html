@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not Logged In Error</title>
+    <title>Error</title>
 
     <!-- Internal styling -->
     <style>
@@ -35,12 +35,12 @@
             <h3>Error</h3>
         </div>
         <div class="columns pt-5 px-6 mx-6 is-three-fifths">
-            <h4>It seems like you have not logged in!</h4>
+            <h4>You cannot view other users' personal journal entries!</h4>
         </div>
         <div class="columns pt-5 px-6 mx-6">
             <form method="get">
                 <div class="column p-0 pt-2">
-                    <button formaction="/" class="button is-medium is-btn is-rounded mr-3">Login or sign up here</button>
+                    <button th:formaction="@{/profile/{username}/journal(username=${username})}" class="button is-medium is-btn is-rounded mr-3">Return to your journal</button>
                 </div>
 
             </form>

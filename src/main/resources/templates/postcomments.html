@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+
+    <!-- Internal styling -->
+    <style>
+        html,
+        body {
+            background-image: url("/images/browse-bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            line-height: 1 !important;
+        }
+
+        .navbar {
+            background-color: hsl(0 100% 100% / 0.5) !important;
+        }
+
+        button {
+            font-family: 'Times New Roman', Times, serif;
+        }
+    </style>
+
+    <!-- Personal Style Sheet -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+    <!-- Google Font API -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+</head>
+
+<!-- Javascript logic for notification delete button -->
+<script src="/js/notificationdelete.js"></script>
+
+<body class="has-navbar-fixed-top pb-6">
+    <!-- NAV BAR -->
+    <nav th:replace="~{navbar.html :: navbar}"></nav>
+
+    <!-- BODY CONTENT -->
+    <div class="notification is-primary is-light" th:if="${isnewcommentadded}">
+        <button class="delete postalert"></button>
+        New Comment Successfully Added!
+    </div>
+
+    <div class="notification is-primary is-light" th:if="${iscommentdeleted}">
+        <button class="delete postalert"></button>
+        Comment Successfully Deleted!
+    </div>
+
+    <div class="columns pt-3">
+        <div class="column px-6 mx-6 mt-5 pb-6 has-text-centered">
+            <h3 class="pb-3" th:text="${channelName}"></h3>
+        </div>
+    </div>
+
+    <div class="tile is-ancestor mx-6 px-6" th:object="${post}">
+        <div class="tile is-parent">
+            <div class="tile is-child">
+                <a
+                    th:href="@{/channels/{channelName}/{postId}(postId=${post.postId}, channelName=${post.channelName})}"></a>
+                <article class="tile is-child notification is-post">
+                    <p class="title" th:text="${post.title}"></p>
+                    <p class="post-info" th:unless="${post.isAnonymous}">By: @<i><span th:text="${post.author}"></i></span></p>
+                    <i class="post-info" th:if="${post.isAnonymous}">Anonymous</i>
+                    <p class="post-info">Feeling: <span th:text="${post.mood}"></span></p>
+                    <p class="post-info" th:text="${#dates.format(post.datePublished, 'dd-MM-yyyy')}"></p>
+                    <hr>
+                    <p class="content mb-2" th:utext="${post.body}"></p>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Tiles -->
+    <div class="mx-6 px-6 mb-4">
+        <h4 class="mx-3">Comments:</h4>
+    </div>
+
+    <div class="tile is-ancestor mx-6 px-6" th:each="comment : ${comments}">
+        <div class="tile is-parent">
+            <div class="tile is-child">
+                <form>
+                    <article class="tile is-child notification is-comment">
+                        <!-- Delete post button -->
+                        <button th:if="${username} eq ${comment.author}" class="delete non-notification"
+                        th:formaction="@{/channels/{channelName}/{postId}/deletecomment(postId=${postId}, channelName=${channelName})}"
+                            formmethod="post"></button>
+                        <!-- Hidden inputs to send data -->
+                        <input type="hidden" name="commentId" th:value="${comment.commentId}">
+
+                        <!-- Tile content -->
+                        <strong>@<span name="author" th:text="${comment.author}"></span></strong>
+                        <p th:text="${#dates.format(comment.datePublished, 'dd-MM-yyyy')}"></p>
+                        <br>
+                        <p class="content" th:text="${comment.commentBody}"></p>
+                    </article>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment input field -->
+    <div class="mx-6 px-6 mb-4">
+        <article class="comments m-3">
+            <form th:action="@{/channels/{channelName}/{postId}/newcomment(postId=${postId}, channelName=${channelName})}"
+                th:object="${newcomment}" method="post">
+                <div class="media-content">
+                    <div class="field">
+                        <p class="control">
+                            <textarea th:field="*{commentBody}" class="textarea" placeholder="Add a comment..."></textarea>
+                            <input type="hidden" th:value="*{author}" th:field="*{author}"></input>
+                            <input type="hidden" th:value="${commentId}" th:field="*{commentId}">
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <button class="button">Post comment</button>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </article>
+    </div>
+
+</body>
+
+</html>

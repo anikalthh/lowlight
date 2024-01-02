@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile</title>
 
     <!-- Internal styling -->
     <style>
@@ -34,55 +34,31 @@
     <!-- Bulma CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
+
+<!-- Javascript logic for notification delete button -->
+<script src="/js/notificationdelete.js"></script>
+
 <body class="has-navbar-fixed-top pb-6 mb-6">
     <!-- NAV BAR -->
-    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-        <a class="navbar-item" href="/channels">
-            <img src="/images/logo.png" width="35" height="35">
-        </a>
-    
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-        </div>
-    
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/channels">
-                Browse Channels
-                </a>
-        
-                <a class="navbar-item" th:href="@{/profile/{username}(username=${username})}">
-                Profile
-                </a>
-            </div>
-        
-            <div class="navbar-end">
-                <div class="navbar-item">
-                <div class="buttons">
-                    <form method="get">
-                        <button class="button is-dark" formaction="/logout">
-                            Log out
-                        </button>
-                    </form>
-                </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <nav th:replace="~{navbar.html :: navbar}"></nav>
+
+    <!-- NOTIFICATIONS -->
+    <!-- Entry Deleted Notification -->
+    <div class="notification is-primary is-light" th:if="${deletedpost}">
+        <button class="delete postalert"></button>
+        Post Successfully Deleted.
+    </div>
 
     <!-- BODY CONTENT -->
-    <section class="section mb-3 pb-6">
+    <section class="section mb-3 pb-6 pt-3">
 
         <!-- First row -->
         <div class="columns px-6 mx-6">
-            <div class="column is-2 mt-5">
+            <div class="column is-2 mt-6">
                 <img style="height: 20vh;" src="/images/profile-pic.png" alt="profile picture">
             </div>
 
-            <div class="column mr-3">
+            <div class="profile-page column mr-3">
                 <h3 class="mt-6 mb-3">@<span th:text="${username}"></span></h3>
                 <p>Email: <span th:text="${email}"></span></p>
                 <p>Last Active Date: <span th:text="${#dates.format(lastactivedate, 'dd-MM-yyyy')}"></span></p>
@@ -103,18 +79,39 @@
         <div class="columns pt-5 px-6 mx-6">
             <!-- Tiles of posts -->
             <div class="column is-three-fifths">
-                <h4 th:if="${hasnoposts}">No posts yet. Browse channels and make your first post!</h4>
-                <h3 style="font-size: 4vh !important;" class="mb-4" th:unless="${hasnoposts}">My public posts</h3>
-                <div th:unless="${hasnoposts}" class="tile is-ancestor" th:each="post : ${posts}">
-                    <div class="tile is-parent">
+
+                <!-- Your own profile -->
+                <h3 style="font-size: 4vh !important;" class="mb-4" th:unless="${hasnoposts}" th:if="${isOwnProfile}">My public posts</h3>
+                <h4 th:if="${hasnoposts and isOwnProfile}">No posts yet. Browse channels and make your first post!</h4>
+
+                <!-- Other users' profiles -->
+                <h3 style="font-size: 4vh !important;" class="mb-4" th:unless="${hasnoposts or isOwnProfile}">Their public posts</h3>
+                <h4 th:if="${hasnoposts}" th:unless="${isOwnProfile}">They have no posts yet.</h4>
+                
+                <!-- Users' public posts -->
+                <div th:unless="${hasnoposts}" class="tile is-ancestor" th:each="post, iter : ${posts}">
+                    <div th:unless="${post.isAnonymous and not isOwnProfile}" class="tile is-parent">
                         <div class="tile is-child">
-                            <article class="tile is-child notification is-primary">
-                                <p class="title" th:text="${post.title}"></p>
-                                <i class="subtitle" th:unless="${post.isAnonymous}" th:text="${post.author}"></i>
-                                <i class="subtitle" th:if="${post.isAnonymous}">Anonymous</i>
-                                <p class="subtitle" th:text="${#dates.format(post.datePublished, 'dd-MM-yyyy')}"></p>
-                                <p class="content" th:text="${post.body}"></p>
-                            </article>
+                            <form>
+                                <article class="tile is-child notification is-post">
+                                    <!-- Delete post button -->
+                                    <button class="delete non-notification" th:formaction="@{/profile/{username}/deletepost(username=${username})}" formmethod="post"></button>
+                                    <!-- Hidden inputs to send data -->
+                                    <input type="hidden" name="index" th:value="${iter.index}">
+                                    <input type="hidden" name="channelName" th:value="${post.channelName}">
+                                    <input type="hidden" name="postId" th:value="${post.postId}">
+
+                                    <!-- Tile content -->
+                                    <p class="title" name="postTitle" th:text="${post.title}"></p>
+                                    <p class="post-info" th:unless="${post.isAnonymous}">By: @<i><span th:text="${post.author}"></i></span></p>
+                                    <i class="post-info" th:if="${post.isAnonymous}">Anonymous</i>
+                                    <p class="post-info">Feeling: <span th:text="${post.mood}"></span></p>
+                                    <p class="post-info" th:text="${#dates.format(post.datePublished, 'dd-MM-yyyy')}"></p>
+                                    <hr>
+                                    <p class="content" th:utext="${post.body}"></p>
+                                    <p class="content mb-2">Posted in: <span th:text="${post.channelName}"></span></p>
+                                </article>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -122,13 +119,14 @@
 
             <div class="column">
                 <!-- Graph API -->
-                <h3 style="font-size: 4vh !important;" class="mb-4">My moodtracker</h3>
+                <h3 style="font-size: 4vh !important;" class="mb-4" th:if="${isOwnProfile}">My moodtracker</h3>
+                <h3 style="font-size: 4vh !important;" class="mb-4" th:unless="${isOwnProfile}">Their moodtracker</h3>
                 <div style="background-color: beige;" class="pb-4 mb-4">
                     <img th:src="${graphAPI}" alt="Moodtracker Graph API">
                 </div>
 
-                <!-- Tabs -->
-                <div class="tile is-ancestor">
+                <!-- Personal Journal Tab -->
+                <div th:if="${isOwnProfile}" class="tile is-ancestor">
                     <div class="tile is-parent">
                         <div class="tile is-child">
                             <a a th:href="@{/profile/{username}/journal(username=${username})}">

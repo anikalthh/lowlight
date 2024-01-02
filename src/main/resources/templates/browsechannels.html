@@ -18,10 +18,6 @@
             line-height: 1 !important;
         }
 
-        .navbar {
-            background-color: hsl(0 100% 100% / 0.5) !important;
-        }
-
         button {
             font-family: 'Times New Roman', Times, serif;
         }
@@ -46,54 +42,22 @@
 <body class="has-navbar-fixed-top pb-6">
 
     <!-- NAV BAR -->
-    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-        <a class="navbar-item" href="/channels">
-            <img src="/images/logo.png" width="35" height="35">
-        </a>
-    
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-        </div>
-    
-        <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="/channels">
-            Browse Channels
-            </a>
-    
-            <a class="navbar-item" th:href="@{/profile/{username}(username=${username})}">
-            Profile
-            </a>
-        </div>
-    
-        <div class="navbar-end">
-            <div class="navbar-item">
-            <div class="buttons">
-                <form method="get">
-                    <button class="button is-dark" formaction="/logout">
-                        Log out
-                    </button>
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-    </nav>
+    <nav th:replace="~{navbar.html :: navbar}"></nav>
 
     <!-- BODY CONTENT -->
     <div class="notification is-primary is-light" th:if="${isnewchanneladded}">
-        <button class="delete"></button>
+        <button class="delete postalert"></button>
         New Channel Successfully Added!
     </div>
 
-    <div class="columns pt-3">
-        <div class="column px-6 mx-6 mt-5 has-text-centered">
-            <h3 class="pb-3">Browse Channels</h3>
+    <!-- Header and 'add new' button -->
+    <div class="columns mx-6 mt-5 pt-3">
+        <div class="column">
+            <h3 class="pb-3 ml-6">Browse Channels</h3>
+        </div>
+        <div class="column mr-6" style="text-align: right;">
             <form>
-                <button formmethod="get" formaction="/channels/newchannel" class="button is-link is-small is-rounded pt-2">Add New Channel</button>
+                <button formmethod="get" formaction="/channels/newchannel" class="button is-channel is-channel-btn pt-2">Add New Channel</button>
             </form>
         </div>
     </div>
@@ -101,8 +65,8 @@
     <div class="tile is-ancestor mx-6 px-6" th:each="channel : ${channels}">
         <div class="tile is-parent">
             <div class="tile is-child">
-                <a a th:href="@{/channels/{channelName}(channelName=${channel.channelName})}">
-                    <article class="tile is-child notification is-warning">
+                <a th:href="@{/channels/{channelName}(channelName=${channel.channelName})}">
+                    <article class="tile is-child notification is-channel">
                         <p class="title" th:text="${channel.channelName}"></p>
                         <p class="subtitle" th:text="${channel.description}"></p>
                     </article>

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    (document.querySelectorAll('.notification .postalert') || []).forEach(($delete) => {
       const $notification = $delete.parentNode;
   
       $delete.addEventListener('click', () => {

@@ -1,11 +1,11 @@
 package sg.nus.lowlight.utility;
 
 import java.io.StringReader;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -15,6 +15,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import sg.nus.lowlight.model.JournalEntry;
 import sg.nus.lowlight.model.Post;
+import sg.nus.lowlight.model.PostComment;
 import sg.nus.lowlight.model.User;
 
 public class Utils {
@@ -22,12 +23,14 @@ public class Utils {
     // POST OBJECT UTILITY
     public static JsonObject postObjTojsonObj(Post post) {
         JsonObject jsonObj = Json.createObjectBuilder()
+            .add("postId", post.getPostId())
             .add("title", post.getTitle())
             .add("author", post.getAuthor())
             .add("body", post.getBody())
             .add("datePublished", post.getDatePublished())
             .add("isAnonymous", post.getIsAnonymous())
             .add("mood", post.getMood())
+            .add("channelName", post.getChannelName())
             .build();
 
         return jsonObj;
@@ -37,14 +40,16 @@ public class Utils {
         JsonReader jr = Json.createReader(new StringReader(jsonStr));
         JsonObject jsonObj = jr.readObject();
 
+        String postId = jsonObj.getString("postId");
         String title = jsonObj.getString("title");
         String author = jsonObj.getString("author");
         String body = jsonObj.getString("body");
         long datePublished = jsonObj.getJsonNumber("datePublished").longValue();
         Boolean isAnonymous = jsonObj.getBoolean("isAnonymous");
         String mood = jsonObj.getString("mood");
+        String channelName = jsonObj.getString("channelName");
 
-        return new Post(title, author, body, datePublished, isAnonymous, mood);
+        return new Post(postId, title, author, body, datePublished, isAnonymous, mood, channelName);
     }
 
     // JOURNAL ENTRY OBJECT UTILITY
@@ -61,7 +66,6 @@ public class Utils {
 
     // USER OBJECT UTILITY
     public static JsonObject userObjTojsonObj(User user) throws JsonProcessingException {
-        System.out.printf("USER OBJECT UTILTIY, IS ENTRIES EMPTY: %s\n", user.getEntriesMade());
         JsonObject jsonObj = Json.createObjectBuilder()
             .add("username", user.getUsername())
             .add("email", user.getEmail())
@@ -95,14 +99,16 @@ public class Utils {
         List<Post> postsMade = postsMadeJsonArray.stream()
             .map((j -> j.asJsonObject()))
             .map(o -> {
+                String postId = o.getString("postId");
                 String title = o.getString("title");
                 String author = o.getString("author");
                 String body = o.getString("body");
                 long datePublished = o.getJsonNumber("datePublished").longValue();
                 Boolean isAnonymous = o.getBoolean("isAnonymous");
                 String mood = o.getString("mood");
+                String channelName = o.getString("channelName");
 
-                return new Post(title, author, body, datePublished, isAnonymous, mood);
+                return new Post(postId, title, author, body, datePublished, isAnonymous, mood, channelName);
             })
             .collect(Collectors.toList());
 
@@ -152,7 +158,6 @@ public class Utils {
         }
 
         JsonArray jsonArray = jsonArrayBuilder.build();
-        System.out.printf("SAVING INTO JSONARRAY: %s\n", jsonArray);
         return jsonArray;
     }
 
@@ -167,5 +172,52 @@ public class Utils {
             .build();
 
         return jsonArray;
+    }
+
+    // COMMENTS UTILS: Convert PostComment Object to JsonObj
+    public static JsonObject commentObjToJsonObj(PostComment comment) {
+        JsonObject jsonObj = Json.createObjectBuilder()
+            .add("commentId", comment.getCommentId())
+            .add("author", comment.getAuthor())
+            .add("datePublished", comment.getDatePublished())
+            .add("commentBody", comment.getCommentBody())
+            .build();
+
+        return jsonObj;
+    }
+
+    // COMMENTS UTILS: Convert JsonObj to PostComment Object
+    public static PostComment commentStrToCommentObj(String comment) {
+        JsonObject jsonObj = Json.createReader(new StringReader(comment)).readObject();
+        String commentId = jsonObj.getString("commentId");
+        String author = jsonObj.getString("author");
+        long datePublished = jsonObj.getJsonNumber("datePublished").longValue();
+        String commentBody = jsonObj.getString("commentBody");
+
+        return new PostComment(commentId, author, datePublished, commentBody);
+    }
+
+    // Sort Posts By Date 
+    public static List<Post> sortByDatePosts(List<Post> posts) {
+        // Use the Stream API to sort the list by date and collect the result
+        return posts.stream()
+                .sorted(Comparator.comparingLong(Post::getDatePublished).reversed())
+                .collect(Collectors.toList());
+    }
+
+    // Sort Journal Entries By Date 
+    public static List<JournalEntry> sortByDateEntries(List<JournalEntry> entries) {
+        // Use the Stream API to sort the list by date and collect the result
+        return entries.stream()
+                .sorted(Comparator.comparingLong(JournalEntry::getDatePublished).reversed())
+                .collect(Collectors.toList());
+    }
+
+    // Sort Comments By Date 
+    public static List<PostComment> sortByDateComments(List<PostComment> comments) {
+        // Use the Stream API to sort the list by date and collect the result
+        return comments.stream()
+                .sorted(Comparator.comparingLong(PostComment::getDatePublished))
+                .collect(Collectors.toList());
     }
 }

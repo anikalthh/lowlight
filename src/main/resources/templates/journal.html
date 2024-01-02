@@ -45,67 +45,54 @@
 
 <body class="has-navbar-fixed-top pb-6">
     <!-- NAV BAR -->
-    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-        <a class="navbar-item" href="/channels">
-            <img src="/images/logo.png" width="35" height="35">
-        </a>
-    
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-        </div>
-    
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="/channels">
-                Browse Channels
-                </a>
-        
-                <a class="navbar-item" th:href="@{/profile/{username}(username=${username})}">
-                Profile
-                </a>
-            </div>
-        
-            <div class="navbar-end">
-                <div class="navbar-item">
-                <div class="buttons">
-                    <form method="get">
-                        <button class="button is-dark" formaction="/logout">
-                            Log out
-                        </button>
-                    </form>
-                </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <nav th:replace="~{navbar.html :: navbar}"></nav>
 
-    <!-- BODY CONTENT -->
-    <div class="notification is-primary is-light" th:if="${isnewpostadded}">
-        <button class="delete"></button>
+    <!-- NOTIFICATION -->
+    <!-- New Entry Added Notification -->
+    <div class="notification is-primary is-light" th:if="${isnewentryadded}">
+        <button class="delete postalert"></button>
         New Journal Entry Successfully Saved!
     </div>
 
-    <div class="columns pt-3">
-        <div class="column px-6 mx-6 mt-5 pb-6 has-text-centered">
-            <h3 class="pb-3">Your Journal Entries</h3>
+    <!-- Entry Deleted Notification -->
+    <div class="notification is-primary is-light" th:if="${deletedpost}">
+        <button class="delete postalert"></button>
+        Journal Entry Successfully Deleted.
+    </div>
+
+    <!-- BODY CONTENT -->
+    <!-- Header and 'add new' button -->
+    <div class="columns mx-6 mt-5 pt-3">
+        <div class="column">
+            <h3 class="pb-3 ml-6">Your Journal Entries</h3>
+            <h4 class="py-3 ml-6" th:if="${noentriesyet}">No entries yet. Add a new journal entry!</h4>
+        </div>
+        <div class="column mr-6" style="text-align: right;">
             <form th:action="@{/profile/{username}/journal/newentry(username=${username})}">
-                <button formmethod="get" class="button is-link is-small is-rounded pt-2">Add New Journal Entry</button>
+                <button formmethod="get" class="button is-btn pt-2">Add New Journal Entry</button>
             </form>
         </div>
     </div>
 
-    <div class="tile is-ancestor mx-6 px-6" th:each="entry : ${journalentries}">
+    <div class="tile is-ancestor mx-6 px-6" th:each="entry, iter : ${journalentries}">
         <div class="tile is-parent">
             <div class="tile is-child">
-                <article class="tile is-child notification is-primary">
-                    <p class="title" th:text="${entry.title}"></p>
-                    <p class="subtitle">Feeling: <span th:text="${entry.mood}"></span></p>
-                    <p class="subtitle" th:text="${#dates.format(entry.datePublished, 'dd-MM-yyyy')}"></p>
-                    <p class="content" th:text="${entry.body}"></p>
-                </article>
+                <form>
+                    <article class="tile is-child notification is-post">
+                        <!-- Delet entry button -->
+                        <button class="delete" th:formaction="@{/profile/{username}/journal/delete(username=${username})}" formmethod="post"></button>
+                        
+                        <!-- Hidden input to send data -->
+                        <input type="hidden" name="index" th:value="${iter.index}">
+                
+                        <!-- Journal Entry content -->
+                        <p class="title" th:text="${entry.title}"></p>
+                        <p class="post-info" th:text="${#dates.format(entry.datePublished, 'dd-MM-yyyy')}"></p>
+                        <p class="post-info">Feeling: <span th:text="${entry.mood}"></span></p>
+                        <hr>
+                        <p class="content mb-2" th:text="${entry.body}"></p>
+                    </article>
+                </form>
             </div>
         </div>
     </div>

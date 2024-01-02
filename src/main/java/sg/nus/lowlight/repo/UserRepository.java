@@ -44,13 +44,19 @@ public class UserRepository {
 
     // Retrieve user object 
     public User getUserObj(String username) {
-        String userJsonStr = template.opsForHash().get("users", username).toString();
+        String userJsonStr = template.opsForHash().get(userDetailsHashRef, username).toString();
         User userObj = Utils.jsonStrToUserObj(userJsonStr);
         return userObj;
     } 
 
+    // Invidual user object for RESTAPI
     public String getUserObjInString(String username) {
-        return template.opsForHash().get("users", username).toString();
+        return template.opsForHash().get(userDetailsHashRef, username).toString();
+    }
+
+    // All user objects for RESTAPI
+    public String getAllUserObjsInString() {
+        return template.opsForHash().values(userDetailsHashRef).toString();
     }
 
     // UPDATE USER DETAILS
@@ -64,12 +70,29 @@ public class UserRepository {
         template.opsForHash().put(userDetailsHashRef, username, userJsonStr);
     }
 
+    // Delete journal entry from list of entries made
+    public void deletePostFromUserDetails(String username, Integer index) throws JsonProcessingException, IndexOutOfBoundsException {
+        String jsonStr = template.opsForHash().get(userDetailsHashRef, username).toString();
+        User user = Utils.jsonStrToUserObj(jsonStr);
+        user.removePost(index);
+        String userJsonStr = Utils.userObjTojsonObj(user).toString();
+        template.opsForHash().put(userDetailsHashRef, username, userJsonStr);
+    }
+
     // Add new journal entry to list of entries made
     public void addJournalEntryToUserDetails(String username, JournalEntry entry) throws JsonProcessingException {
-        System.out.printf("ADDING ENTRY IN USER REPO JAVA CLASS: %s\n", entry);
         String jsonStr = template.opsForHash().get(userDetailsHashRef, username).toString();
         User user = Utils.jsonStrToUserObj(jsonStr);
         user.addJournalEntry(entry);
+        String userJsonStr = Utils.userObjTojsonObj(user).toString();
+        template.opsForHash().put(userDetailsHashRef, username, userJsonStr);
+    }
+
+    // Delete journal entry from list of entries made
+    public void deleteJournalEntryFromUserDetails(String username, Integer index) throws JsonProcessingException {
+        String jsonStr = template.opsForHash().get(userDetailsHashRef, username).toString();
+        User user = Utils.jsonStrToUserObj(jsonStr);
+        user.removeJournalEntry(index);
         String userJsonStr = Utils.userObjTojsonObj(user).toString();
         template.opsForHash().put(userDetailsHashRef, username, userJsonStr);
     }

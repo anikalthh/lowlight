@@ -13,8 +13,17 @@
             background-size: cover;
             height: 100vh;
             width: 100%;
-            overflow: hidden;
+            overflow: hidden !important;
             line-height: 1 !important;
+        }
+
+        input, textarea {
+            max-width: 90% !important;
+            min-width: auto !important;
+        }
+
+        .notification {
+            width: 90%;
         }
 
     </style>
@@ -31,6 +40,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 
 </head>
+<script src="/js/gobacktoprevpage.js"></script>
 <body>
     <div class="columns pt-3">
         <div class="column px-6 mx-6 mt-5">
@@ -59,7 +69,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <textarea class="textarea is-link" name="description" cols="40" rows="10" placeholder="Enter a description so other users can properly use this space!" th:field="*{description}"></textarea>
+                                    <textarea class="textarea" name="description" cols="40" rows="10" placeholder="Enter a description so other users can properly use this space!" th:field="*{description}"></textarea>
                                 </div>
 
                                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="error" class="notification is-danger is-light"></div>
@@ -70,8 +80,8 @@
                     <div class="columns mt-4 px-6 mx-6 has-text-centered">
                         <div class="column">
                             <form>
-                                <button formmethod="get" formaction="/channels" class="button is-medium is-link is-rounded mr-3">Go Back</button>
-                                <button formmethod="post" formaction="/channels/success" class="button is-medium is-link is-rounded mr-3">Add Channel</button>
+                                <a href="/channels" class="button is-medium is-btn is-rounded mr-3">Go Back</a>
+                                <button formmethod="post" formaction="/channels/success" class="button is-medium is-btn is-rounded mr-3">Add Channel</button>
                             </form>
                         </div>
                     </div>

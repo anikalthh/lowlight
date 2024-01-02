@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class JournalEntry {
     private String title;
     private String body;
-    private long datePublished;
+    private long datePublished = System.currentTimeMillis();
     private String mood;
 }

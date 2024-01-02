@@ -42,7 +42,7 @@
     </div>
 
     <form th:object="${user}">
-        <div style="width: 37%;" class="container has-text-centered pt-3 mt-6">
+        <div style="width: 37%;" class="container has-text-centered pt-6 mt-6">
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
                     <label class="label">Username: </label>
@@ -64,7 +64,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input th:field="*{email}" class="input is-rounded mt-2" type="email" placeholder="Enter email">
+                            <input th:field="*{email}" class="input is-rounded" type="email" placeholder="Enter email">
                         </div>
                     </div>
                 </div>
@@ -78,31 +78,18 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input th:field="*{password}" class="input is-rounded mt-2" type="password" placeholder="Enter password">
+                            <input th:field="*{password}" class="input is-rounded" type="password" placeholder="Enter password">
                         </div>
                     </div>
                 </div>
             </div>
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="error" class="notification is-danger is-light"></div>
-
-            <!-- <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label">Confirm password: </label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input is-rounded mt-2" type="password" placeholder="Confirm password">
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
         <div class="columns mt-4 px-6 mx-6 has-text-centered">
             <div class="column">
-                    <button formmethod="get" formaction="/" class="button is-medium is-link is-rounded mr-3">Go back</button>
-                    <button formmethod="post" formaction="/signupsuccess" class="button is-medium is-link is-rounded mr-3">Sign Up</button>
+                    <a href="/" class="button is-medium is-btn is-rounded mr-3">Go back</a>
+                    <button formmethod="post" formaction="/signupsuccess" class="button is-medium is-btn is-rounded mr-3">Sign Up</button>
             </div>
         </div>
     </form>

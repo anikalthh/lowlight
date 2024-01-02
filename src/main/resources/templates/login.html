@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to Lowlight</title>
+    <title>Login to lowlight</title>
 
     <!-- Internal styling -->
     <style>
@@ -65,7 +65,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input th:field="*{password}" class="input is-rounded mt-2" type="password" placeholder="Enter password">
+                            <input th:field="*{password}" class="input is-rounded" type="password" placeholder="Enter password">
                         </div>
                     </div>
                 </div>
@@ -74,8 +74,8 @@
 
             <div class="columns mt-4 px-6 mx-6 has-text-centered">
                 <div class="column">
-                    <button formmethod="get" formaction="/" class="button is-medium is-link is-rounded mr-3">Go back</button>
-                    <button formmethod="post" formaction="/loginsuccess" class="button is-medium is-link is-rounded mr-3">Login</button>
+                    <a href="/" class="button is-medium is-btn is-rounded mr-3">Go back</a>
+                    <button formmethod="post" formaction="/loginsuccess" class="button is-medium is-btn is-rounded mr-3">Login</button>
                 </div>
             </div>
         </form>

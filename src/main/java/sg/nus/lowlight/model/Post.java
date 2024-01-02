@@ -1,5 +1,7 @@
 package sg.nus.lowlight.model;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Post {
+    private String postId = UUID.randomUUID().toString();
 
     @NotBlank(message = "Title cannot be blank.")
     private String title;
@@ -25,4 +28,6 @@ public class Post {
 
     @NotBlank(message = "Which mood best resonates with this post?")
     private String mood;
+
+    private String channelName;
 }

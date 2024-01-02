@@ -20,6 +20,7 @@ import sg.nus.lowlight.model.Channel;
 import sg.nus.lowlight.model.Post;
 import sg.nus.lowlight.service.ChannelsService;
 import sg.nus.lowlight.service.UserService;
+import sg.nus.lowlight.utility.Utils;
 
 @Controller
 @RequestMapping("/channels")
@@ -54,7 +55,11 @@ public class ChannelController {
 
         chSvc.saveChannel(newchannel.getChannelName(), newchannel.getDescription());
         m.addAttribute("isnewchanneladded", true);
-        m.addAttribute("username", sess.getAttribute("username").toString());
+        m.addAttribute("username", sess.getAttribute("currUser").toString());
+
+        // Retrieve all channels
+        List<Channel> listOfChannels = chSvc.getAllChannels();
+        m.addAttribute("channels", listOfChannels);
         return "browsechannels";
     }
 
@@ -66,15 +71,22 @@ public class ChannelController {
         }
 
         List<Post> listOfPosts = chSvc.getPostsFromChannel(channelName);
+        List<Post> sortedPosts = Utils.sortByDatePosts(listOfPosts);
 
         m.addAttribute("channelName", channelName);
-        m.addAttribute("posts", listOfPosts);
+        m.addAttribute("posts", sortedPosts);
 
         // Last Viewed Channel
         String username = sess.getAttribute("currUser").toString();
         userSvc.setLastViewedChannel(username, channelName);
 
         m.addAttribute("username", username);
+
+        if (listOfPosts.size() == 0) {
+            m.addAttribute("nopostsyet", true);
+        }
+
+        sess.setAttribute("channelName", channelName);
         return "browseposts";
     }
     

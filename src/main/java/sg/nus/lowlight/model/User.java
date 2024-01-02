@@ -34,36 +34,73 @@ public class User {
 
     // Add new post to List of posts made
     public void addPost(Post post) {
-        postsMade.add(post);
+        postsMade.add(0, post);
     }
 
-    // Add new post to List of posts made
+    // Remove a post
+    public void removePost(int index) {
+        String moodToRemove = postsMade.get(index).getMood();
+        removeMood(moodToRemove);
+        postsMade.remove(index);
+    }
+
+    // Add new entry to List of entries made
     public void addJournalEntry(JournalEntry entry) {
-        System.out.printf("USER MODEL ADD ENTRY METHOD: %s\n", entry);
-        entriesMade.add(entry);
+        entriesMade.add(0, entry);
+    }
+
+    // Remove an entry
+    public void removeJournalEntry(int index) {
+        String moodToRemove = entriesMade.get(index).getMood();
+        removeMood(moodToRemove);
+        entriesMade.remove(index);
     }
 
     // Add mood data to moodtracker
     public void addMood(String mood) {
         switch (mood) {
-            case "happy":
+            case "Happy 😄":
                 moodtracker[0] ++;
                 break;
 
-            case "peaceful":
+            case "Peaceful 😌":
                 moodtracker[1] ++;
                 break;
 
-            case "sad":
+            case "Sad 😞":
                 moodtracker[2] ++;
                 break;
 
-            case "angry":
+            case "Angry 😡":
                 moodtracker[3] ++;
                 break;
 
-            case "unmotivated":
+            case "Unmotivated 🫠":
                 moodtracker[4] ++;
+                break;
+        }
+    }
+
+    public void removeMood(String mood) {
+        switch (mood) {
+            case "Happy 😄":
+                moodtracker[0] --;
+                break;
+
+            case "Peaceful 😌":
+                moodtracker[1] --;
+                break;
+
+            case "Sad 😞":
+                moodtracker[2] --;
+                break;
+
+            case "Angry 😡":
+                moodtracker[3] --;
+                break;
+
+            case "Unmotivated 🫠":
+                moodtracker[4] --;
                 break;
         }
     }
